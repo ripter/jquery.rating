@@ -1,0 +1,36 @@
+.ui-rating .ui-rating-star, .ui-rating .ui-rating-cancel{
+    width:16px;
+    height:16px;
+    font-size:2px;
+    float:left;
+    text-decoration:none;
+    vertical-align:bottom;
+    background-image:url(star.gif);
+    background-repeat:no-repeat;
+}
+.ui-rating a {
+	cursor: pointer;
+}
+.ui-rating-full  {
+    background-position:left top;
+}
+
+.ui-rating-half  {
+    background-position:left -16px;
+}
+
+.ui-rating-empty {
+    background-position:left -32px;
+}
+
+.ui-rating-cancel-empty {
+    background-position:left -64px;
+}
+
+.ui-rating-cancel-full {
+    background-position:left -80px;
+}
+
+.ui-rating-hover {
+    background-position:left -48px;
+}

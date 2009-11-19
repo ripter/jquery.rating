@@ -1,0 +1,164 @@
+<html>
+<head>
+	<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
+	
+	<script type="text/javascript" src="jquery.rating.js"></script>
+
+
+	<link rel="stylesheet" media="screen" type="text/css" href="jquery.rating.css" />
+	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			//Turn all the select boxes into rating controls
+		    $(".rating").rating();
+		
+			//Show that we can bind on the select box
+			$("#serialStar2").bind("change", function(){
+				$('#serialString2').text( $('#serialStar2').serialize() );
+			});
+			
+			$("#serialStar").rating();
+			
+		});		
+	
+	</script>
+	
+</head>
+<body>
+	<h2>What</h2>
+	<p>
+	An easy to use rating control. It takes a normal select box, and turns it into a rating that your users can click on. The select box is preserved so you can still bind on change, get, and set the value in the rating control. The image is controlled with CSS and a simple gif, so you can make it look like anything you need.</p>
+	
+	<h2>Example</h2>
+	<p>
+	Here is a sample default rating control with no options.
+	</p>
+	<select class="rating" >
+	    <option value="0">Did not like</option>
+	    <option value="1">Ok</option>
+	    <option value="2" selected="selected">Liked</option>
+	    <option value="3">Loved!</option>
+	</select>
+	
+<h4 style="clear: both;">Source</h4>
+<pre name="code" class="html">	
+&lt;select class="rating"&gt;
+    &lt;option value="0"&gt;Did not like&lt;/option&gt;
+    &lt;option value="1"&gt;Ok&lt;/option&gt;
+    &lt;option value="2" selected="selected"&gt;Liked&lt;/option&gt;
+    &lt;option value="3"&gt;Loved!&lt;/option&gt;
+&lt;/select&gt;
+</pre>
+<pre name="code" class="JS">
+$(".rating").rating();
+</pre>
+
+<h4>That's it!</h4>
+<p>
+	The select box is now replaced with the rating control. Each option you put in the select box is turned into a star, so you can easily have as many stars as you want. The value you set is the value that is returned for the selected star. The text becomes the title on the star.
+</p>
+<p>
+	You can turn the cancel button on and off, and change the value of the cancel button by passing it when you create the rating control. 
+	<code>$(".rating").rating({showCancel: true, cancelValue: null,})</code>
+</p>
+<p>
+	Available Options:
+	<ul>
+		<li><code>showCancel: true</code> : Should the cancel button be shown?</li>
+		<li><code>cancelValue: null</code> : If cancel button is shown, what should it's value be?</li>
+		<li><code>startValue: null</code> : If no property has the 'selected' attribute, what value should be displayed?</li>
+	</ul>
+</p>
+
+<h2>Get Value</h2>
+<select name="myRating" class="rating"  id="serialStar">
+    <option value="1">This</option>
+    <option value="2">can</option>
+	<option value="3">be</option>
+    <option value="4">Anything</option>
+</select>
+<span id="seralString">Click for Value</span>
+<button onclick="$('#seralString').text( $('#serialStar').val() );">Serialize</button>
+
+<h4>Source</h4>
+<pre name="code" class="html">	
+&lt;select name="myRating" class="rating" id="serialStar"&gt;
+    &lt;option value="0"&gt;Did not like&lt;/option&gt;
+    &lt;option value="1"&gt;Ok&lt;/option&gt;
+    &lt;option value="2"&gt;Liked&lt;/option&gt;
+    &lt;option value="3"&gt;Loved!&lt;/option&gt;
+&lt;/select&gt;
+&lt;span id="seralString"&gt;Click for Value&lt;/span&gt;
+&lt;button onclick="$('#seralString').text( $('#serialStar').val() );"&gt;Serialize&lt;/button&gt;
+</pre>
+<pre name="code" class="JS">
+//Turn the Select into a rating
+$(".rating").rating();
+//Action on button click
+$('#seralString').text( $('#serialStar').val() );
+</pre>
+
+<h2>Bind $.serialize() On Change</h2>
+<p>Of course you don't have to call $.serialize() here, you can call anything you want. It's just a normal event. You even have access to the value with <code>$("#serialStar2").val()</code>!</p>
+<select name="myRating" class="rating" id="serialStar2">
+    <option value="1">ALright</option>
+    <option value="2">Ok</option>
+	<option value="3">Getting Better</option>
+    <option value="4">Pretty Good</option>
+	<option value="5">Awesome</option>
+</select>
+<span id="serialString2">Just click and I'll change.</span>
+
+<h4>Source</h4>
+<pre name="code" class="html">	
+&lt;select name="myRating" class="rating" id="serialStar2"&gt;
+    &lt;option value="1"&gt;ALrighte&lt;/option&gt;
+    &lt;option value="2"&gt;Ok&lt;/option&gt;
+    &lt;option value="3"&gt;Getting Better&lt;/option&gt;
+    &lt;option value="4"&gt;Pretty Good&lt;/option&gt;
+	&lt;option value="5"&gt;Awesome&lt;/option&gt;
+&lt;/select&gt;
+&lt;span id="serialString2"&gt;serialize that star rating!&lt;/span&gt;
+</pre>
+<pre name="code" class="JS">
+//Turn the select box into rating controls
+$(".rating").rating();
+
+//Show that we can bind on the select box
+$("#serialStar2").bind("change", function(){
+	$('#serialString2').text( $('#serialStar2').serialize() );
+});
+</pre>
+
+<h2>Setting the Value</h2>
+<p>There is one slight twist. In order to set the value programmatically, you have to set it, then trigger the change event on the select box.</p>
+<select class="rating" id="star3">
+    <option value="1">ALright</option>
+    <option value="2">Ok</option>
+	<option value="3">Getting Better</option>
+    <option value="4">Pretty Good</option>
+	<option value="5">Awesome</option>
+</select>
+<button onclick="$('#star3').val(4).change()">Set to 'Pretty Good'</button>
+
+<pre name="code" class="html">	
+&lt;select name="myRating" class="rating" id="serialStar2"&gt;
+    &lt;option value="1"&gt;ALrighte&lt;/option&gt;
+    &lt;option value="2"&gt;Ok&lt;/option&gt;
+    &lt;option value="3"&gt;Getting Better&lt;/option&gt;
+    &lt;option value="4"&gt;Pretty Good&lt;/option&gt;
+	&lt;option value="5"&gt;Awesome&lt;/option&gt;
+&lt;/select&gt;
+&lt;button onclick="$('#star3').val(4).change()"&gtSet to 'Pretty Good'&lt;/button&gt
+</pre>
+<pre name="code" class="JS">
+//Turn the select box into rating controls
+$(".rating").rating();
+
+//Set the value to 4, then trigger change to update the rating.
+$('#star3').val(4).change();
+</pre>
+
+
+</body>
+</html>
