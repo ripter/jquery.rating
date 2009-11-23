@@ -165,7 +165,7 @@
 			var div = HTML.createContainer(selectBox);
 			
 			//Should we do any binding?
-			if( true != settings.disabled && $(selectBox).attr("disabled") != true )
+			if( true !== settings.disabled && $(selectBox).attr("disabled") !== true )
 			{	
 			    //Bind our events to the container
 			    $(div).bind("mouseover", events.hoverOver)
