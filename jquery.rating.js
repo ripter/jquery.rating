@@ -17,7 +17,8 @@
 		{
 			showCancel: true,
 			cancelValue: null,
-			startValue: null
+			startValue: null,
+			disabled: false
 		};
 		$.extend(settings, options);
 		
@@ -162,11 +163,15 @@
 			
 			//Create the holding container
 			var div = HTML.createContainer(selectBox);
-			//Bind our events to the container
-			$(div).bind("mouseover", events.hoverOver)
-				.bind("mouseout", events.hoverOut)
-				.bind("click",{"selectBox": selectBox}, events.click);
 			
+			//Should we do any binding?
+			if( true != settings.disabled && $(selectBox).attr("disabled") != true )
+			{	
+			    //Bind our events to the container
+			    $(div).bind("mouseover", events.hoverOver)
+				    .bind("mouseout", events.hoverOut)
+				    .bind("click",{"selectBox": selectBox}, events.click);
+			}	
 			//Should we create the Cancel button?
 			if( settings.showCancel )
 			{
