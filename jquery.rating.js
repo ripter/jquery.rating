@@ -152,7 +152,7 @@
 		//
 		return this.each(function(){
 			//We only do select types
-			if( $(this).attr("type") !== "select-one" || $(this).is(":hidden") === true ) { return; }
+			if( $(this).attr("type") !== "select-one" ) { return; }
 			//Save 'this' for ease of development
 			var selectBox = this;
 			//Hide the selectBox
