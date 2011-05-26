@@ -74,14 +74,14 @@
 					//Set us, and the stars before us as full
 					elm.closest(".ui-rating-star").prevAll().andSelf()
 						.not(".ui-rating-cancel")
-						.attr("className", "ui-rating-star ui-rating-full");
+						.prop("className", "ui-rating-star ui-rating-full");
 					//Set the stars after us as empty 
 					elm.closest(".ui-rating-star").nextAll()
 						.not(".ui-rating-cancel")
-						.attr("className", "ui-rating-star ui-rating-empty");
+						.prop("className", "ui-rating-star ui-rating-empty");
 					//Uncheck the cancel
 					elm.siblings(".ui-rating-cancel")
-						.attr("className", "ui-rating-cancel ui-rating-cancel-empty");
+						.prop("className", "ui-rating-cancel ui-rating-cancel-empty");
 					//Use our value
 					value = elm.attr("value");
 				}
@@ -109,8 +109,8 @@
 			empty: function(elm)
 			{
 				//Clear all of the stars
-				elm.attr("className", "ui-rating-cancel ui-rating-cancel-empty")
-					.nextAll().attr("className", "ui-rating-star ui-rating-empty");
+				elm.prop("className", "ui-rating-cancel ui-rating-cancel-empty")
+					.nextAll().prop("className", "ui-rating-star ui-rating-empty");
 			}
 		};
 		
@@ -122,7 +122,7 @@
 			// Creates the holding container for the rating control
 			createContainer: function(elm)
 			{
-				var div = $("<div/>").attr({
+				var div = $("<div/>").prop({
 	                title: elm.title,
 	                className: "ui-rating"
 	            }).insertAfter( elm );
@@ -131,7 +131,7 @@
 			// Creates a Star
 			createStar: function(elm, div)
 			{
-				$("<a/>").attr({
+				$("<a/>").prop({
 					className: "ui-rating-star ui-rating-empty",
 					title: $(elm).text(),
 					value: elm.value
@@ -140,7 +140,7 @@
 			// Create the Cancel Button
 			createCancel: function(elm, div)
 			{
-				$("<a/>").attr({
+				$("<a/>").prop({
 					className: "ui-rating-cancel ui-rating-cancel-empty",
 					title: "Cancel"
 				}).appendTo(div);
@@ -152,20 +152,20 @@
 		//
 		return this.each(function(){
 			//We only do select types
-			if( $(this).attr("type") !== "select-one" ) { return; }
+			if( $(this).prop("type") !== "select-one" ) { return; }
 			//Save 'this' for ease of development
 			var selectBox = this;
 			//Hide the selectBox
 			$(selectBox).css("display", "none");
 			//Does it have an ID? if not generate one
-			var id = $(selectBox).attr("id");
-			if( "" === id ) { id = "ui-rating-" + $.data(selectBox); $(selectBox).attr("id", id); }
+			var id = $(selectBox).prop("id");
+			if( "" === id ) { id = "ui-rating-" + $.data(selectBox); $(selectBox).prop("id", id); }
 			
 			//Create the holding container
 			var div = HTML.createContainer(selectBox);
 			
 			//Should we do any binding?
-			if( true !== settings.disabled && $(selectBox).attr("disabled") !== true )
+			if( true !== settings.disabled && $(selectBox).prop("disabled") !== true )
 			{	
 			    //Bind our events to the container
 			    $(div).bind("mouseover", events.hoverOver)
@@ -181,7 +181,10 @@
 			//Now loop over every option in the select box.
 			$("option", selectBox).each(function(){
 				//Create a Star
-				HTML.createStar(this, div);
+				if(this.value!="")
+				{
+				    HTML.createStar(this, div);
+				}    
 			});
 			
 			//Is there an element with the select option set?
