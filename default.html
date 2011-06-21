@@ -1,16 +1,13 @@
 <html>
 <head>
-	<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery-1.6.1.min.js"></script>
 	
-	<script type="text/javascript" src="jquery.rating.js"></script>
-
-
+	<script type="text/javascript" src="jquery.rating2.js"></script>
 	<link rel="stylesheet" media="screen" type="text/css" href="jquery.rating.css" />
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
 			//Turn all the select boxes into rating controls
-			$("#tmp").attr("disabled", "disabled");
 		    $(".rating").rating();
 		
 			//Show that we can bind on the select box
@@ -68,6 +65,7 @@ $(".rating").rating();
 		<li><code>showCancel: true</code> : Should the cancel button be shown?</li>
 		<li><code>cancelValue: null</code> : If cancel button is shown, what should it's value be?</li>
 		<li><code>startValue: null</code> : If no property has the 'selected' attribute, what value should be displayed?</li>
+        <li><code>cancelTitle: "Cancel"</code> : The title for the cancel button.</li>
 	</ul>
 </p>
 

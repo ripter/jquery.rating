@@ -1,6 +1,7 @@
 //
 // rating Plugin
 // By Chris Richards
+// Last Update: 5/26/2011
 //
 // Turns a select box into a star rating control.
 //
@@ -17,6 +18,7 @@
 		{
 			showCancel: true,
 			cancelValue: null,
+			cancelTitle: "Cancel",
 			startValue: null,
 			disabled: false
 		};
@@ -142,7 +144,7 @@
 			{
 				$("<a/>").prop({
 					className: "ui-rating-cancel ui-rating-cancel-empty",
-					title: "Cancel"
+					title: settings.cancelTitle
 				}).appendTo(div);
 			}
 		};
