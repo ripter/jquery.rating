@@ -1,7 +1,7 @@
 //
 // rating Plugin
 // By Chris Richards
-// Last Update: 5/26/2011
+// Last Update: 6/21/2011
 //
 // Turns a select box into a star rating control.
 //
@@ -22,14 +22,13 @@
 			startValue: null,
 			disabled: false
 		};
-		$.extend(settings, options);
-		
-		//
-		// Events API
-		//
-		var events =
-		{
-			hoverOver: function(evt)
+
+
+        //
+        // Methods
+        //
+        var methods = {
+           hoverOver: function(evt)
 			{
 				var elm = $(evt.target);
 				
@@ -69,7 +68,7 @@
 				if( elm.hasClass("ui-rating-cancel") )
 				{
 					//Clear all of the stars
-					events.empty(elm);
+                    methods.empty(elm);
 				}
 				else
 				{
@@ -97,7 +96,7 @@
 			change: function(evt)
 			{
 				var value =  $(this).val();
-				events.setValue(value, evt.data.container, evt.data.selectBox);
+				methods.setValue(value, evt.data.container, evt.data.selectBox);
 			},
 			setValue: function(value, container, selectBox)
 			{
@@ -106,7 +105,7 @@
 				evt.target = $(".ui-rating-star[value="+ value +"]", container);
 				evt.data.selectBox = selectBox;
 				evt.data.hasChanged = true;
-				events.click(evt);
+				methods.click(evt);
 			},
 			empty: function(elm)
 			{
@@ -114,97 +113,83 @@
 				elm.prop("className", "ui-rating-cancel ui-rating-cancel-empty")
 					.nextAll().prop("className", "ui-rating-star ui-rating-empty");
 			}
-		};
-		
-		//
-		// HTML API
-		//
-		var HTML =
-		{
-			// Creates the holding container for the rating control
-			createContainer: function(elm)
-			{
-				var div = $("<div/>").prop({
-	                title: elm.title,
-	                className: "ui-rating"
-	            }).insertAfter( elm );
-				return div;
-			},
-			// Creates a Star
-			createStar: function(elm, div)
-			{
-				$("<a/>").prop({
-					className: "ui-rating-star ui-rating-empty",
-					title: $(elm).text(),
-					value: elm.value
-				}).appendTo(div);
-			},
-			// Create the Cancel Button
-			createCancel: function(elm, div)
-			{
-				$("<a/>").prop({
-					className: "ui-rating-cancel ui-rating-cancel-empty",
-					title: settings.cancelTitle
-				}).appendTo(div);
-			}
-		};
-		
-		//
+ 
+        };
+
+        //
 		// Process the matched elements
 		//
-		return this.each(function(){
-			//We only do select types
-			if( $(this).prop("type") !== "select-one" ) { return; }
-			//Save 'this' for ease of development
-			var selectBox = this;
-			//Hide the selectBox
-			$(selectBox).css("display", "none");
-			//Does it have an ID? if not generate one
-			var id = $(selectBox).prop("id");
-			if( "" === id ) { id = "ui-rating-" + $.data(selectBox); $(selectBox).prop("id", id); }
-			
-			//Create the holding container
-			var div = HTML.createContainer(selectBox);
-			
-			//Should we do any binding?
-			if( true !== settings.disabled && $(selectBox).prop("disabled") !== true )
-			{	
-			    //Bind our events to the container
-			    $(div).bind("mouseover", events.hoverOver)
-				    .bind("mouseout", events.hoverOut)
-				    .bind("click",{"selectBox": selectBox}, events.click);
-			}	
-			//Should we create the Cancel button?
-			if( settings.showCancel )
-			{
-				HTML.createCancel(this, div);
-			}
-			
-			//Now loop over every option in the select box.
-			$("option", selectBox).each(function(){
-				//Create a Star
+		return this.each(function() {
+            var self = $(this),
+                elm,
+                val;
+
+            // we only want to process single select
+            if ('select-one' !== this.type) { return; }
+            // don't process the same control more than once
+            if (self.prop('hasProcessed')) { return; }
+
+            // if options exist, merge with our settings
+            if (options) { $.extend( settings, options); }
+
+            // hide the select box because we are going to replace it with our control
+            self.hide();
+            // mark the element so we don't process it more than once.
+            self.prop('hasProcessed', true);
+            
+            //
+            // create the new HTML element
+            // 
+            // create a div and add it after the select box
+            elm = $("<div/>").prop({
+                title: this.title,  // if there was a title, preserve it.
+                className: "ui-rating"
+            }).insertAfter( self );
+            // create all of the stars
+            $('option', self).each(function() {
+                // only convert options with a value
 				if(this.value!="")
 				{
-				    HTML.createStar(this, div);
+                    $("<a/>").prop({
+                        className: "ui-rating-star ui-rating-empty",
+                        title: $(this).text(),   // perserve the option text as a title.
+                        value: this.value        // perserve the value.
+                    }).appendTo(elm);
 				}    
-			});
-			
-			//Is there an element with the select option set?
-			if( 0 !== $("#" + id + " option[selected]").size() ) 
-			{
-				//Set the Starting Value
-				events.setValue( $(selectBox).val(), div, selectBox );
-			} else {
-				//Use a start value if we have it, otherwise use the cancel value.
-				var val = null !== settings.startValue ? settings.startValue : settings.cancelValue;
-				events.setValue( val, div, selectBox );
+            });
+            // create the cancel
+            if (true == settings.showCancel) {
+                $("<a/>").prop({
+					className: "ui-rating-cancel ui-rating-cancel-empty",
+					title: settings.cancelTitle
+				}).appendTo(elm);
+            }
+            // perserve the selected value
+            //
+            if ( 0 !==  $('option:selected', self).size() ) {
+                //methods.setValue(                
+                methods.setValue( self.val(), elm, self );
+            } else {
+                //Use a start value if we have it, otherwise use the cancel value.
+				val = null !== settings.startValue ? settings.startValue : settings.cancelValue;
+				methods.setValue( val, elm, self );
 				//Make sure the selectbox knows our desision
-				$(selectBox).val(val);
-			}
-			//Update the stars if the selectbox value changes.
-			
-			$(this).bind("change", {"selectBox": selectBox, "container": div},  events.change);
-		});
+				self.val(val);
+            }
+            
+            //Should we do any binding?
+			if( true !== settings.disabled && self.prop("disabled") !== true )
+			{	
+			    //Bind our events to the container
+			    $(elm).bind("mouseover", methods.hoverOver)
+				    .bind("mouseout", methods.hoverOut)
+				    .bind("click",{"selectBox": self}, methods.click);
+			}	
+
+            //Update the stars if the selectbox value changes.
+			self.bind("change", {"selectBox": self, "container": elm},  methods.change);
+
+        });
 		
 	};
 
