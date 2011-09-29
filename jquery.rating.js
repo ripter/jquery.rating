@@ -2,8 +2,13 @@
 // rating Plugin
 // By Chris Richards
 // Last Update: 6/21/2011
-//
 // Turns a select box into a star rating control.
+//
+//
+// Updated by Dovy Paukstys 21 Sept. 2011
+// Fixed the click to clear out stars not working with newer jquery, but may not have ever worked.
+// Also fixed it so on a new page load it will properly populate the stars as they should be.
+//
 //
 
 //Keeps '$' pointing to the jQuery version
@@ -65,10 +70,9 @@
 				var elm = $(evt.target);
 				var value = settings.cancelValue;
 				//Are we over the Cancel or the star?
-				if( elm.hasClass("ui-rating-cancel") )
-				{
-					//Clear all of the stars
-                    methods.empty(elm);
+				elm.parents(".content-box-content:first").removeClass('formerror');
+				if( elm.hasClass("ui-rating-cancel") ) {
+                    methods.empty(elm, elm.parent());
 				}
 				else
 				{
@@ -97,18 +101,24 @@
 			{
 				var value =  $(this).val();
 				methods.setValue(value, evt.data.container, evt.data.selectBox);
+				if (isDirty)
+		            isDirty = true;				
 			},
 			setValue: function(value, container, selectBox)
 			{
 				//Set a new target and let the method know the select has already changed.
 				var evt = {"target": null, "data": {}};
-				evt.target = $(".ui-rating-star[value="+ value +"]", container);
+
+				evt.target = $(".ui-rating-star[title="+ value +"]", container);				
 				evt.data.selectBox = selectBox;
 				evt.data.hasChanged = true;
 				methods.click(evt);
 			},
-			empty: function(elm)
+			empty: function(elm, parent)
 			{
+				// Fix to remove all stars
+				parent.find('.ui-rating-star').removeClass('ui-rating-full');
+				parent.find('.ui-rating-star').addClass('ui-rating-empty');				
 				//Clear all of the stars
 				elm.prop("className", "ui-rating-cancel ui-rating-cancel-empty")
 					.nextAll().prop("className", "ui-rating-star ui-rating-empty");
