@@ -101,8 +101,6 @@
 			{
 				var value =  $(this).val();
 				methods.setValue(value, evt.data.container, evt.data.selectBox);
-				if (isDirty)
-		            isDirty = true;				
 			},
 			setValue: function(value, container, selectBox)
 			{
