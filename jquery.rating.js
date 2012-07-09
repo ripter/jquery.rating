@@ -25,9 +25,9 @@
 			cancelValue: null,
 			cancelTitle: "Cancel",
 			startValue: null,
+			showTarget: false,
 			disabled: false
 		};
-
 
         //
         // Methods
@@ -95,6 +95,13 @@
 				if( !evt.data.hasChanged )
 				{
 					$(evt.data.selectBox).val( value ).trigger("change");
+					
+					// set uiVlaue
+					if (true == settings.showTarget) {
+						uiValue = $(evt.data.selectBox).find("option:selected").text();
+						targetId = "#" + evt.data.selectBox.attr("name");
+						$(targetId).text(uiValue);
+				    }
 				}
 			},
 			change: function(evt)
@@ -153,6 +160,14 @@
                 title: this.title,  // if there was a title, preserve it.
                 className: "ui-rating"
             }).insertAfter( self );
+			
+			// create the p to hold selected value
+		   if (true == settings.showTarget) {
+				uiValue = $("<p/>").prop({
+		         	id: this.name,  // set id to the input name attribute
+		         	className: "ui-selected-value"
+		    	}).insertAfter( elm );
+			}
             // create all of the stars
             $('option', self).each(function() {
                 // only convert options with a value
