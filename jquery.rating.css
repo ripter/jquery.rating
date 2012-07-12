@@ -34,3 +34,10 @@
 .ui-rating-hover {
     background-position:left -48px;
 }
+
+.ui-selected-value {
+	background-color: #EEEEEE;
+	margin-left: 150px;
+	text-align: center;
+	width: 60px;
+}
