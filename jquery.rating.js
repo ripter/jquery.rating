@@ -114,7 +114,7 @@
 				//Set a new target and let the method know the select has already changed.
 				var evt = {"target": null, "data": {}};
 
-				evt.target = $(".ui-rating-star[title="+ value +"]", container);				
+				evt.target = $(".ui-rating-star[value="+ value +"]", container);				
 				evt.data.selectBox = selectBox;
 				evt.data.hasChanged = true;
 				methods.click(evt);
