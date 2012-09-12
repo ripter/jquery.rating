@@ -107,7 +107,11 @@
 			change: function(evt)
 			{
 				var value =  $(this).val();
-				methods.setValue(value, evt.data.container, evt.data.selectBox);
+				if (value == settings.cancelValue){
+					methods.empty(evt.data.container.find('ui-rating-cancel'),evt.data.container);
+				}else{
+					methods.setValue(value, evt.data.container, evt.data.selectBox);
+				}
 			},
 			setValue: function(value, container, selectBox)
 			{
