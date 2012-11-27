@@ -24,4 +24,4 @@ Available Options:
 * cancelValue: null : If cancel button is shown, what should it's value be?
 * startValue: null : If no property has the 'selected' attribute, what value should be displayed?
 * cancelTitle: "Cancel" : The title for the cancel button.
-
+* disabled: false: Disable the rating function
