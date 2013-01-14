@@ -189,7 +189,7 @@
             }
             // perserve the selected value
             //
-            if ( 0 !==  $('option:selected', self).size() ) {
+            if ( 0 !==  $('option[selected]', self).size() ) {
                 //methods.setValue(                
                 methods.setValue( self.val(), elm, self );
             } else {
