@@ -173,8 +173,8 @@
                 // only convert options with a value
 				if(this.value!="")
 				{
-                    $("<a/>").prop({
-                        className: "ui-rating-star ui-rating-empty",
+                    $("<a/>").attr({
+                        class: "ui-rating-star ui-rating-empty",
                         title: $(this).text(),   // perserve the option text as a title.
                         value: this.value        // perserve the value.
                     }).appendTo(elm);
